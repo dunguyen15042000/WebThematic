@@ -1,0 +1,112 @@
+<%@ page import="edu.hcmuaf.util.SecurityUtils" %>
+<%@ page import="edu.hcmuaf.security.CustomSuccessHandler" %>
+<%@ page import="edu.hcmuaf.util.CartUtil" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+ 	
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    	<div class="container collapse navbar-collapse px-4 px-lg-5 ">
+        	<a class="navbar-brand" href="<c:url value='/trang-chu' />">
+        		<i class="fa fa-futbol-o"></i> FOOTBALLFORUS</a>
+        		
+	        <%-- 	<a class="navbar-brand" href="<c:url value='/quan-tri-trang-chu' />">
+	        		<i class="fa fa-leaf"></i> QUẢN TRỊ</a>	 --%>
+	        		
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            	<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 "></ul>
+                <form class="d-flex ">
+                	<security:authorize access="isAuthenticated()" >
+                	<!-- data-toggle="modal" 
+                    	data-target="#exampleModalLong" -->
+                    	<button class="btn btn-outline-light" type="button" id="cart" >
+	                    	<a href="<c:url value='/gio-hang' />" style="color: white">
+	                    		<i class="bi-cart-fill me-1"></i> DS Xem sau
+	                    	</a>
+                        	<span class="badge bg-dark text-white ms-1 rounded-pill" id="cartCounter">
+                        		<%=CustomSuccessHandler.count%>
+                        	</span>
+                     	</button> 
+                     </security:authorize>
+                </form>
+               	<ul class="navbar-nav  mb-2 mb-lg-0 ms-lg-4 ">
+                	<li class="nav-item">
+                       <a class="nav-link active" aria-current="page" href="<c:url value='/trang-chu'/>">Trang chủ</a>
+                    </li>
+                        
+                     <security:authorize access="isAnonymous()" >
+							<li class="nav-item"><a class="nav-link" href="<c:url value='/dang-nhap'/>">Đăng nhập</a></li>
+							<li class="nav-item"><a class="nav-link" href="<c:url value='/dang-nhap/dang-ky' />">Đăng ký</a></li>
+					</security:authorize>
+                        
+                     <security:authorize access="isAuthenticated()" >
+	                        <li class="nav-item "><p class="nav-link mb-0" >Welcome, </p></li>
+	                        <li class="nav-item dropdown">
+	                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+	                             	<%=SecurityUtils.getPrincipal().getFullName()%>
+	                             </a>
+	                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	                                 <li><a class="dropdown-item" href="<c:url value='/ho-so' />">Thông tin</a></li>
+	                                 <li><hr class="dropdown-divider" /></li>
+	                                 <li><a class="dropdown-item" href="<c:url value='/dang-nhap/quen-mat-khau' />">Đổi mật khẩu</a></li>
+	                                 <li><a class="dropdown-item" href="<c:url value='/thoat'/>">Thoát</a></li>
+	                               </ul>
+	                        </li>
+                     </security:authorize>
+            	</ul>  
+        	</div>
+    	</div>
+    	<br>
+	</nav>
+
+	<nav class=" navbar navbar-expand-lg navbar-dark bg-secondary  border-bottom-2 border-2 border-secondary">
+            <div class="container collapse navbar-collapse px-4 px-lg-5 " id="navb">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active ps-0" aria-current="page" href="#!">Trang chủ</a>
+                        </li>
+               <%--      <c:forEach var="item" items="categories"> --%>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value='/the-loai?categoryCode=nhan-dinh' />">Nhận định</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value='/the-loai?categoryCode=du-doan' />">Dự đoán</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value='/the-loai?categoryCode=ti-so' />">Tỉ số</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value='/the-loai?categoryCode=moi' />">Mới</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value='/the-loai?categoryCode=lich-phat-song' />">Lịch phát sóng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value='/the-loai?categoryCode=high-light' />">Highlight</a>
+                        </li>
+                    <%--  </c:forEach> --%>
+                       
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Thông tin</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#!">Tất cả</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="<c:url value='/the-loai?categoryCode=cau-thu' />">Cầu thủ</a></li>
+                                <li><a class="dropdown-item" href="<c:url value='/the-loai?categoryCode=cau-lac-bo' />">Câu lạc bộ</a></li>
+                                <li><a class="dropdown-item" href="<c:url value='/the-loai?categoryCode=giai-dau' />">Giải đấu</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                     <form class="form-inline my-2 my-lg-0 d-flex">
+                        <input class="form-control  search" type="text" placeholder="Search..." id="search">
+                        <!-- <button class="btn btn-success my-2 my-sm-0" type="button">Search</button> -->
+                    </form>
+    	</div>
+	</nav>
+	
+	 
+	
+	
+        
+        
+        
+        

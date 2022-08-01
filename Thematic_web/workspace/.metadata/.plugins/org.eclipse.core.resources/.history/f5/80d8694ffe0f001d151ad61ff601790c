@@ -1,0 +1,109 @@
+<%@include file="/common/taglib.jsp"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<c:url var="cartAPI" value="/api/web/cart"/>
+<c:url var="shopitemURL" value="/bai-viet"/>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bài viết</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!--BODY CONTENT  -->
+	<!-- Product section-->
+		<nav aria-label="breadcrumb " class="breadcrumb py-0 container" style="background: none !important">
+                <ol class="breadcrumb mb-0 container px-2 px-lg-5 " style="background: none !important">
+                    <li class="breadcrumb-item">
+                    	<a href="<c:url value='/trang-chu' />" style="color: white"><u>Trang chủ</u></a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                    	<a href="<c:url value='/gio-hang' /> " style="color: white"><u>Danh sách xem sau</u></a>
+                    </li>
+                    <li class="breadcrumb-item">...</li>
+                </ol>
+        </nav>
+		
+		<div class="container">
+  <table id="cart" class="table table-hover table-condensed">
+    <thead>
+      <tr>
+        <th style="width:50%">Bài viết</th>
+        <th style="width:10%">Thể loại</th>
+        <th style="width:8%">Số lượng</th>
+        <th style="width:22%" class="text-center">Tác giả</th>
+        <th style="width:10%"></th>
+      </tr>
+    </thead>
+    <tbody>
+    	<c:forEach var="item" items="${cart.listNews}">
+		      <tr>
+		        <td data-th="Product">
+		          <div class="row">
+		            <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive" /></div>
+		            <div class="col-sm-10">
+		              <h4 class="nomargin">${item.title}</h4>
+		              <p>${item.shortDescription}</p>
+		            </div>
+		          </div>
+		        </td>
+		        <td data-th="Price">${item.categoryCode}</td>
+		        <td data-th="Quantity">
+		          <input type="number" class="form-control text-center" value="1">
+		        </td>
+		        <td data-th="Subtotal" class="text-center">${item.createdBy}</td>
+		        <td class="actions" data-th="">
+		         <!--  <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button> -->
+		          <button class="btn btn-primary" title="Xem bài viết">Xem<i class="fa fa-refresh"></i></button>
+		          <!-- <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button> -->
+		          <button class="btn btn-danger" type="button" id="btnDelete" onclick="warningBeforeDelete()" 
+	             title="Xóa bài viết" disabled>Xóa<i class="fa fa-trash-o"></i></button>
+		        </td>
+		      </tr>
+	     </c:forEach>
+    </tbody>
+    
+    	<c:if test="${cart.listNews.size() >0}">
+			<button type="button" class="btn btn-primary mb-3" id="btnMore" >Xem thêm</button> 
+		</c:if>
+		<c:if test="${cart.listNews.size() ==0}">
+			<small class=""><i>Không có bài viết nào trong danh sách</i></small>
+		</c:if>
+    
+    <tfoot>
+      <tr class="visible-xs">
+        <!-- <td class="text-center"><strong>Tổng cộng bài viết</strong></td> -->
+      </tr>
+      <tr>
+        <%-- <td><a href="<c:url value='trang-chu' />" class="btn btn-warning"><i class="fa fa-angle-left"></i>Quay lại trang chủ</a></td> --%>
+        <td colspan="2" class="hidden-xs"></td>
+        <td class="hidden-xs text-center"><strong>Tổng cộng bài viết</strong></td>
+        <td><a href="<c:url value='trang-chu' />" class="btn btn-success btn-block">Quay lại trang chủ <i class="fa fa-angle-right"></i></a></td>
+      </tr>
+    </tfoot>
+  </table>
+  
+</div>
+
+<script>
+$('tbody input[type=checkbox]').change(function() {
+ 	 if (this.checked) {
+ 		$('#btnDelete').removeAttr('disabled');
+ 	 } else {
+ 		$('#btnDelete').attr('disabled','disabled');
+ 	 }
+});
+
+
+</script>
+
+
+</body>
+</html>
+

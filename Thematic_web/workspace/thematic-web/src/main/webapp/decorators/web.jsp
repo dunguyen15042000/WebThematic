@@ -1,0 +1,243 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/common/taglib.jsp" %>
+<c:url var="cartURL" value="/quan-tri/gio-hang/danh-sach"/>
+<c:url var="cartAPI" value="/api/web/cart"/>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Trang chủ</title>
+
+<link href="<c:url value='/template/admin/assets/font-awesome/4.2.0/css/font-awesome.min.css'/>" rel="stylesheet"/>
+<link href="<c:url value='/template/admin/assets/fonts/fonts.googleapis.com.css'/>" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="<c:url value='/template/web/assets/favicon.ico'/>" rel="icon" type="image/x-icon">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+<link href="<c:url value='/template/web/css/styles.css'/>" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!--sweet alert  -->
+<script src="<c:url value='/template/admin/assets/sweetalert/sweetalert2.min.js' />"></script>
+<script src="<c:url value='/template/admin/assets/js/ace-extra.min.js'/>"></script>
+<link rel="stylesheet" href="<c:url value='/template/admin/assets/sweetalert/sweetalert2.min.css' />" />
+
+ <style>
+ 	#bg-main{
+ 		background-image: url('https://image.shutterstock.com/image-photo/soccer-player-ball-action-outdoors-600w-407187145.jpg');
+ 		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		opacity: 0.85;
+	  	filter: alpha(opacity=85);
+ 	}
+ 	#snackbar {
+	    visibility: hidden;	min-width: 250px;	margin-left: -125px;	background-color: #333;
+	    color: #fff;	text-align: center;	border-radius: 2px;	padding: 16px;	position: fixed;
+		z-index: 1;	left: 50%;	bottom: 30px;	font-size: 17px;
+    }
+	#snackbar.show {
+		background-color: #68e9b1;
+		visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    #snackbar1 {
+	    visibility: hidden;	min-width: 250px;	margin-left: -125px;	background-color: #ffc000;
+	    color: #fff;	text-align: center;	border-radius: 2px;	padding: 16px;	position: fixed;
+		z-index: 1;	left: 50%;	bottom: 30px;	font-size: 17px;
+    }
+    
+    #snackbar1.show {
+		background-color: #ffc000;
+		visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    
+     .modal-dialog{
+       width: 1000px !important;
+     }
+
+ </style>
+ 
+</head>
+<body  id="bg-main">
+	
+	<!-- Navigation -->
+	<%@ include file="/common/web/header.jsp" %>
+	
+		<dec:body/>
+		
+	<!-- toast message -->
+        <div id="snackbar" class="bg-success" ></div>
+        <div id="snackbar1" class="bg-primary" ></div>
+    <!-- /toast message -->
+	
+	<!-- Footer -->
+	<%@ include file="/common/web/footer.jsp" %>
+	
+
+	<!-- Bootstrap core JavaScript -->
+	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="<c:url value='template/web/js/scripts.js' />"></script>
+<script>
+//process cart
+//pagination for news in cart
+	/* var news = $('.news');
+	var number = 2;
+	var current = 1;
+	var total = Math.ceil(news.length / number);
+	showItem(news, current);
+	  
+	function showItem(news, current){
+		if(current == total){
+	        $('#btnMore').css("background-color", "lightgrey");
+	        $('#btnMore').attr('disabled', true);
+	    }
+		if(news.length != 0){
+			console.log('khac 0');
+			news.hide().filter(function(index){
+	          return index < (number*current);
+	      	}).show(); 
+		}else{
+			console.log('bang 0');
+		}
+	};
+	$('#btnMore').click(function(){
+	    current++;
+	    showItem(news, current);    
+	}); */
+	
+	function addToCart(id) {
+		event.preventDefault()
+		fetch("/api/web/cart", {
+			method: 'POST',
+			body: JSON.stringify({
+					"id": id
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		}).then(function(res) {
+			return res.json()
+		}).then(function(cartDTO){
+			let counter = document.getElementById("cartCounter")
+			if(cartDTO.total != counter.innerText){
+				counter.innerText = cartDTO.total
+				successToast("Đã thêm bài viết vào danh sách xem sau !");
+			}else{
+				warningToast("Bài viết đã tồn tại trong danh sách xem sau !");
+			}
+		})
+	};
+
+/* 	function warningBeforeDelete() {
+		swal({
+		  title: "Xác nhận xóa",
+		  text: "Bạn có chắc chắn muốn xóa hay không?",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonClass: "btn-success",
+		  cancelButtonClass: "btn-danger",
+		  confirmButtonText: "Xác nhận",
+		  cancelButtonText: "Hủy bỏ",
+		}).then(function(isConfirm) {
+		  if (isConfirm) {
+			  var ids = $('tbody input[type=checkbox]:checked').map(function () {
+		            return $(this).val();
+		      }).get();
+			deleteNewsIntoCart(ids);
+		  }
+		});
+	}
+	function deleteNewsIntoCart(data) {
+	     $.ajax({
+	         url: '${cartAPI}',
+	         type: 'DELETE',
+	         contentType: 'application/json',
+	         data: JSON.stringify(data),
+	         success: function (result) {
+	             window.location.href = ""; 
+	             /* showItem(news, current); 
+	             successToast("Xóa bài viết khỏi danh sách xem sau thành công !");
+	         },
+	         error: function (error) {
+	         	window.location.href = "";
+	         	warningToast("Xảy ra lỗi !!!");
+	         }
+	     });
+	 	}*/
+
+ //toast message
+function successToast(content){
+    var tmp = document.getElementById("snackbar");
+    tmp.className = "show";
+    setTimeout(function(){ 
+        tmp.className = tmp.className.replace("show", ""); 
+        }, 2000);
+    tmp.innerHTML = content;
+};
+function warningToast(content){
+    var tmp = document.getElementById("snackbar1");
+    tmp.className = "show";
+    setTimeout(function(){ 
+        tmp.className = tmp.className.replace("show", ""); 
+        }, 2000);
+    tmp.innerHTML = content;
+};
+
+	//pagination for news in web
+	$(document).ready(function() {
+		var products = $('.product'); //products is all card;
+        var numberPerPage = 2;
+        var currentPage = 1;
+        var totalPage = Math.ceil(products.length / numberPerPage);
+        
+        showNews(products, currentPage);
+
+        function showNews(products, currentPage){
+            if(currentPage == totalPage){
+                $('#btnLoadMore').css("background-color", "lightgrey");
+                $('#btnLoadMore').attr('disabled', true);
+                // $('#btn-loadmore').hide();
+            }
+            products.hide().filter(function(index){
+                return index < (numberPerPage*currentPage);
+            }).show(); 
+        };
+        
+        $('#btnLoadMore').click(function(){
+                currentPage++;
+                showNews(products, currentPage);    
+        });
+		//search
+        var keyword;
+        $('#search').keydown(function(){
+          $('#search').css("background-color", "lightgrey");
+        });
+        $('#search').keyup(function(){
+          $('#search').css("background-color", "white");
+          // alert($(this).val());
+          keyword = $(this).val().toLowerCase();
+          
+          showNews($('.product').hide().filter(function(){
+              return $(this).text().toLowerCase().search(keyword) != -1;
+          }).show(), currentPage);
+        });
+        
+        
+        
+	});
+	
+	
+</script> 
+
+</body>
+</html>

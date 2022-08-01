@@ -1,0 +1,90 @@
+1652616360024	Rename resource 'UserController'
+1652616376203	Delete element
+1652624387396	Encapsulate field 'roleCode'
+1652624863002	Encapsulate field 'listRole'
+1652624903740	Encapsulate field 'listUserDTO'
+1652631665383	Encapsulate field 'roleCode'
+1652698274582	Delete element
+1652706155585	Encapsulate field 'roleCode'
+1652707966605	Encapsulate field 'roleCode'
+1652709248653	Encapsulate field 'roleCode'
+1652768392811	Copy file
+1652768399955	Delete element
+1652772719874	Rename resource 'Error404.java'
+1652772743592	Rename resource 'Error-404Controller.java'
+1652772798463	Rename resource '404.jsp'
+1652772805002	Rename resource '500.jsp'
+1652861002545	Copy file
+1652861028459	Copy file
+1652861042861	Copy file
+1652861058501	Copy file
+1652861069614	Copy file
+1652861191458	Move 'bootstrap.min.css' to 'css'
+1652861200321	Move 'ace.min.css' to 'css'
+1652861203115	Move 'ace-rtl.min.css' to 'css'
+1652861250554	Move 'font-awesome' to 'login'
+1652861274634	Move 'font-awesome.min.css' to 'css'
+1652861286515	Rename resource 'font'
+1652861293799	Move 'fonts.googleapis.com.css' to 'fonts'
+1652861328609	Move 'css' to 'assets'
+1652861331539	Move 'font-awesome' to 'assets'
+1652861334457	Move 'fonts' to 'assets'
+1652861627902	Rename resource 'login.jsp'
+1652861634018	Rename resource 'dky.jsp'
+1652862191097	Delete element
+1652863648284	Delete element
+1652863654152	Copy folder
+1652863664613	Delete element
+1652863670245	Delete element
+1652863674734	Delete element
+1652863677928	Delete element
+1652863685437	Delete element
+1652863695772	Delete element
+1652863781694	Delete element
+1652863790517	Delete elements
+1652863798454	Delete element
+1652863818480	Delete element
+1652863822971	Copy folder
+1652863830473	Delete element
+1652863837620	Delete element
+1652863841306	Delete element
+1652863889562	Delete element
+1652863892385	Delete element
+1652863902789	Delete elements
+1652863906699	Delete element
+1652863912483	Delete element
+1652863915236	Delete element
+1652863937777	Delete element
+1652863940636	Delete element
+1652863971123	Delete elements
+1652863981790	Delete elements
+1652864035882	Delete elements
+1652864061389	Delete elements
+1652864079963	Delete elements
+1652864101396	Delete elements
+1652864108405	Delete elements
+1652865230654	Delete element
+1652865310903	Delete element
+1652887785619	Delete element
+1652888414613	Rename resource 'forgotPassword'
+1652888422372	Delete element
+1652888437532	Delete element
+1652890297544	Rename resource 'login.jsp'
+1652890325506	Delete element
+1652890333207	Rename resource 'login'
+1652890337992	Rename resource 'forgotPassword'
+1652890350066	Delete element
+1652890380820	Delete element
+1652890470344	Delete elements
+1652893140062	Delete elements
+1652893638224	Delete element
+1652895367685	Encapsulate field 'email'
+1652907783742	Delete element
+1652907823501	Move 'LoginController.java' to 'login'
+1652908623262	Delete element
+1653062835073	Encapsulate field 'multiFile'
+1653063196438	Encapsulate field 'photo'
+1653066511511	Copy files
+1653066650636	Delete element
+1653067711484	Delete element
+1653067723410	Delete element

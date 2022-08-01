@@ -1,0 +1,10 @@
+1655149034630	Encapsulate field 'quantity'
+1655238577290	Rename resource 'ReplyDTO.java'
+1655238699911	Rename resource 'CommentDTO.java'
+1655392265503	Copy file
+1655393238676	Delete element
+1655394233548	Delete element
+1655394709305	Move 'CommentController.java' to 'admin'
+1655394748684	Move 'CartController.java' to 'web'
+1655401479670	Delete element
+1655407278458	Move 'cart.jsp' to 'web'

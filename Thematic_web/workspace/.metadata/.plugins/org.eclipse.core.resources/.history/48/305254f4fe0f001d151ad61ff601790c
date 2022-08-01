@@ -1,0 +1,216 @@
+<%@include file="/common/taglib.jsp"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<c:url var="commentAPI" value="/api/web/comment"/>
+<c:url var="shopitemURL" value="/bai-viet"/>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bài viết</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+
+	<%@ include file="/WEB-INF/views/web/cart.jsp" %>
+	<!--BODY CONTENT  -->
+	<!-- Product section-->
+		<nav aria-label="breadcrumb " class="breadcrumb py-0 container" style="background: none !important">
+                <ol class="breadcrumb mb-0 container px-2 px-lg-5 " style="background: none !important">
+                    <li class="breadcrumb-item">
+                    	<a href="<c:url value='/trang-chu' />" style="color: white"><u>Trang chủ</u></a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                    	<a href="<c:url value='/bai-viet?id=${news.id}' /> " style="color: white"><u>Bài viết-${news.id}</u></a>
+                    </li>
+                    <li class="breadcrumb-item">...</li>
+                </ol>
+        </nav>
+	
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-top">
+                    <div class="col-md-4">
+                    	<!-- <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /> -->
+                    	<img class="card-img-top mb-5 mb-md-0" src="${news.thumbnail}" alt="..." />
+                    </div>
+                    <div class="col-md-8 pb-5 pt-2" style="background-color: lightgrey">
+                        <div class="small mb-1">ID: ${news.id}</div>
+                        <h4 class="display-5 fw-bolder">${news.title}</h4>
+                        
+                        <div class="fs-5 ">
+                            <!-- <span class="text-decoration-line-through">$45.00</span> -->
+                            <span>${news.shortDescription}</span>
+                        </div>
+                        
+                        <p class="lead">${news.content}</p>
+                        
+                        <div class="d-flex">
+                            <input class="form-control text-center me-3" id="inputQuantity" style="max-width: 2rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="addToCart(${news.id})">
+                                +<i class="bi-cart-fill me-1"></i>
+                                Xem sau
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!--comment  -->
+		<div class="body container px-4 px-lg-5">
+			<div class="row bootstrap snippets bootdeys">
+		    	<div class="col-sm-12" style="background: #eee">
+		        	<div class="comment-wrapper" >
+		            	<div class="panel panel-info" >
+		                <div class="panel-heading my-3">
+		                		<div class="d-flex"><h4 class="text-dark" >Bình luận( </h4>
+			                		<h5><span id="oldCounter">${commentSize}</span></h5> 
+			                		<h4 class="text-dark"> ):</h4> </div>
+		                </div>
+		                <c:if test="${not empty message}">
+							<div class="alert alert-${alert}">${message}</div>
+						</c:if>
+			                <div class="panel-body">
+			                	<input type="hidden" value="${news.id}" id="newsId" />
+								<textarea class="form-control" rows="5" placeholder="Write comment here..." id="content"></textarea>
+											                    
+			                    <br>
+			                    <button type="button" class="btn btn-info pull-right px-4" id="btnSend">Gửi</button>
+			                    
+			                    <div class="clearfix"></div>
+			                    <hr>
+			                    <ul class="media-list ">
+			                    	<c:forEach var="i" items="${comments.listResult}">
+			                        <li class="media py-2 comments bg-white">
+			                            <a href="#" class="pull-left">
+			                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="img-circle">
+			                            </a>
+			                            <div class="media-body">
+			                                <span class="text-muted pull-right">
+			                                    <small class="text-muted">${i.createdDate}</small>
+			                                </span>
+			                                <strong class="text-success">${i.createdBy}</strong>
+			                                <p>- ${i.content}</p>
+			                            </div>
+			                        </li>
+			                        <br>
+			                        </c:forEach>
+			                    </ul>
+			                   <button type="button" class="bg-info text-center text-white py-1 mb-2" 
+			                   id="btnLoadComment" style="width: 100%">Xem thêm bình luận</button>
+			                </div>
+		            	</div> 
+		       		</div>
+		   		</div>
+			</div>
+		</div>        
+        <!-- Related items section-->
+		 <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <h2 class="fw-bolder mb-4 " style="color: white">Bài viết tương tự:</h2>
+                <!-- Card item -->
+                <!--forEach  -->
+                <c:forEach var="item" items="${news.listResult}">
+	                <div class="card h-100 mb-2 product">
+	                    <div class="row gx-4 gx-lg-5 justify-content-center">
+	                        <div class="col col-4 ">
+	                            <!-- <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" /> -->
+	                            <img class="card-img-top" src="${item.thumbnail}" style="height:300px;" />
+	                    		<%-- <img class="card-img-top" 
+	                    		src="<c:url value='/resources/images/${item.thumbnail.originalFilename} ' />" /> --%>
+	                    	</div>
+		                    <div class="col col-8 ">
+		                        <div class="card-body p-4">
+		                                <div class="text-center">
+		                                    <!-- Product name-->
+		                                    <h5 class="fw-bolder">${item.title}</h5>
+		                                    <!-- Product price-->
+		                                    ${item.shortDescription}
+		                                </div>
+		                         </div>
+		                            <!-- Product actions-->
+		                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+		                         	<div class="text-center">
+			                         	<a class="btn btn-outline-dark mt-auto" href="<c:url value='/bai-viet?id=${item.id}' />">
+			                         		Xem bài viết
+			                         	</a>
+		                         	</div>
+		                         </div>
+		                         <div class="float-right">
+		                         	<small>Thể loại: ${item.categoryCode}</small>
+		                         	<div class="d-flex">
+		                         		<small>${item.createdDate}</small><small> -By: ${item.createdBy}</small>
+		                         	</div>
+		                         </div>
+		                          <div class="float-left" >
+		                            <button class="btn btn-outline-dark py-0" type="button" onclick="addToCart(${item.id})">
+		                                <small>+<i class="bi-cart-fill me-1"></i></small>
+		                                <small>Xem sau</small>
+		                            </button>
+                        		</div>
+		                    </div>
+	                    </div>
+	                </div>
+                </c:forEach>
+                
+                <button type="button" class="btn btn-primary mb-3" id="btnLoadMore">Xem thêm</button> 
+            </div>
+        </section>
+<script>
+	
+	
+	$('#btnSend').click(function(e){
+		event.preventDefault();
+		var oldCounter = new Number($('#oldCounter').text()) +1;
+		var content = $('#content').val();
+		var newsId = $('#newsId').val();
+		
+		if(content != ""){
+			fetch("/api/web/comment", {
+				method: 'POST',
+				body: JSON.stringify({
+						"newId": newsId,
+						"content": content
+				}),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).then(function(res) {
+				return res.json()
+			}).then(function(commentDTO){
+				/* window.location.href = ""; */
+				successToast("Bình luận thành công !");
+				let counter = document.getElementById("oldCounter");
+				counter.innerText = oldCounter;
+				/* showComment(comments, current);  */
+			});
+		}
+	});
+	var comments = $('.comments');
+	var number = 2;
+	var current = 1;
+	var total = Math.ceil(comments.length / number);
+	showComments(comments, current);
+	
+	/* function showComments(comments, current){
+	    if(current == total){
+	        $('#btnLoadComment').css("background-color", "lightgrey");
+	        $('#btnLoadComment').attr('disabled', true);
+	    }
+	    comments.hide().filter(function(index){
+	        return index < (number*current);
+	    }).show(); 
+	};
+	$('#btnLoadComment').click(function(){
+	    current++;
+	    showComments(comments, current);    
+	}); */
+	
+	
+</script>
+</body>
+</html>

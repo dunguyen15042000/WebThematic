@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;cart.jsp&apos; to &apos;web&apos;&#x0D;&#x0A;- Original project: &apos;thematic-web&apos;&#x0D;&#x0A;- Destination element: &apos;web&apos;&#x0D;&#x0A;- Original element: &apos;cart.jsp&apos;" description="Copy file" element1="src/main/webapp/WEB-INF/views/web/cart.jsp" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1659179384999" target="/thematic-web/src/main/webapp/WEB-INF/views/web" units="0" version="1.0"/>
+</session>

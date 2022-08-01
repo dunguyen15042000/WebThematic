@@ -1,0 +1,211 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@include file="/common/taglib.jsp"%>
+<c:url var="registerAPI" value="/api/register"/>
+<c:url var="loginURL" value="/dang-nhap"/>
+<c:url var="registerURL" value="/dang-nhap/dang-ky"/>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Đăng ký</title>
+
+</head>
+<body>
+<!-- REGISTER -->
+<div id="signup-box" class="signup-box visible widget-box no-border">
+	<div class="widget-body">
+		<div class="widget-main">
+			<h4 class="header green lighter bigger">
+				<i class="ace-icon fa fa-users blue"></i> Đăng ký tài khoản
+			</h4>
+
+			<div class="space-6"></div>
+			<p>Điền đầy đủ các thông tin bên dưới:</p>
+
+			<form:form class="form-horizontal" role="form" id="formRegister" modelAttribute="model">
+				<fieldset>
+					<label class="block clearfix"> 
+						<span class="block input-icon input-icon-right">
+						 	<!-- <input type="email" class="form-control" placeholder="Email" /> -->
+							<form:input name = "myform" path="email" type="email" id="email" cssClass="form-control" placeholder="Email" onsubmit = "return validateemail();"/> 
+							<i class="ace-icon fa fa-envelope"></i>
+							<span class="error error_zip hide" id="email_error">Error!</span>
+						</span>
+					</label> 
+					<label class="block clearfix"> 
+						<span
+							class="block input-icon input-icon-right"> 
+							<!-- <input type="text" class="form-control" placeholder="Họ và tên" /> -->
+							<form:input path="fullName" type="text" id="fullName" cssClass="form-control" placeholder="Họ và tên"/>
+							 <i class="ace-icon fa fa-retweet"></i>
+							 <span class="error error_zip hide" id="fullName_error">Error!</span>
+						</span>
+					</label>
+					<label class="block clearfix"> 
+						<span
+							class="block input-icon input-icon-right"> 
+							<select name="sex" id="sex" class="form-control">
+						        <option selected label="Chọn giới tính" value="none">Chọn giới tính</option>
+						        <option label="Nam" value="male">Nam</option>
+						        <option label="Nữ" value="female">Nữ</option>
+						        <option label="Khác" value="other">Khác</option>
+						    </select>
+							 <i class="ace-icon fa fa-retweet"></i>
+							 <span class="error error_zip hide" id="sex_error">Error!</span>
+						</span>
+					</label> 
+					<label class="block clearfix">
+						 <span class="block input-icon input-icon-right">
+						<!-- 	<input type="text" class="form-control" placeholder="Tài khoản" />  -->
+							<form:input path="username" type="text" id="username" cssClass="form-control" placeholder="Tài khoản"/>
+							<i class="ace-icon fa fa-user"></i>
+							<span class="error error_zip hide" id="username_error">Error!</span>
+						</span>
+					</label> 
+					<label class="block clearfix">
+						 <span class="block input-icon input-icon-right"> 
+						 	<!-- <input type="password" class="form-control" placeholder="Mật khẩu" /> --> 
+						 	<form:input path="password" type="password" id="password" cssClass="form-control" placeholder="Mật khẩu"/> 
+						 	<i class="ace-icon fa fa-lock"></i>
+						 	<span class="error error_zip hide" id="password_error">Error!</span>
+						</span>
+					</label> 
+					
+					<label class="block clearfix"> 
+						<span
+							class="block input-icon input-icon-right"> 
+							<!-- <input type="password" class="form-control" placeholder="Lập lại mật khẩu" />  -->
+							<form:input path="" type="password" id="repeatPassword" cssClass="form-control" placeholder="Lập lại mật khẩu"/>
+							 <i class="ace-icon fa fa-retweet"></i>
+							 <span class="error error_zip hide" id="repeatPassword_error">Mật khẩu không trùng khớp!</span>
+						</span>
+					</label> 
+					<label class="block">
+						<input type="checkbox" class="ace" id="input_checkbox"/>
+						<span class="lbl"> Tôi đồng ý <a href="#">User Agreement</a> </span>
+					</label>
+
+					<div class="space-24"></div>
+					
+					<form:hidden path="id" id="userId" />
+					<div class="clearfix">
+						<button type="reset" class="width-30 pull-left btn btn-sm">
+							<i class="ace-icon fa fa-refresh"></i> <span class="bigger-110">Reset</span>
+						</button>
+						
+						<button type="button" class="width-65 pull-right btn btn-sm btn-success " id="btnAddRegister" >
+							<span class="bigger-110">Đăng ký</span> 
+							<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+						</button>
+					</div>
+				</fieldset>
+			</form:form>
+		</div>
+
+		<div class="toolbar center">
+			<a href="${loginURL}"  class="back-to-login-link">	<!-- data-target="#login-box" -->
+				<i class="ace-icon fa fa-arrow-left"></i> Trở lại đăng nhập
+			</a>
+		</div>
+	</div>
+	<!-- /.widget-body -->
+</div>
+
+<script>
+	 $('#btnAddRegister').click(function (e) {
+	    e.preventDefault();
+	    var data = {};
+	    var formData = $('#formRegister').serializeArray();
+	    $.each(formData, function (i, v) {
+            data[""+v.name+""] = v.value;
+        });
+	    var id = $('#userId').val();
+	    if (id == "") {
+	 	    addRegister(data);
+	    } else {
+	    	console.log("Error !");
+	    }
+	   
+	});
+	
+	function addRegister(data) {
+		$.ajax({
+            url: '${registerAPI}',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (result) {		//result = NewDTO (là kq trả về của các API)
+            	window.location.href = "${loginURL}?id="+result.id+"&message=register_success";
+            },
+            error: function (error) {
+            	window.location.href = "${registerURL}?message=error_system";
+            }
+        });
+	} 
+	
+	
+	
+	/*REGEX FOR FORM */
+	/* $(function(){
+		$('input, select' ).change(function(){
+			var result = false;
+			var email = $('#email').val();
+			var fullName = $('#fullName').val();
+			var username = $('#username').val();
+			var password = $('#password').val();
+			var repeatPassword = $('#repeatPassword').val();
+			var sex = $('#sex').val();
+			var checkbox = $('#input_checkbox').is(':checked');
+			
+			console.log(email +"  "+ fullName +"  "+ password +"  "+epeatPassword +"  "+ sex +"  "+ checkbox);
+			if(email != '' 
+			&& fullName != '' 
+			&& username != '' 
+			&& password != '' 
+			&& repeatPassword != '' 
+			&& sex != '' 
+			&& checkbox 
+			){
+				result = true;
+				 if(repeatPassword != password){
+					$('#repeatPassword_error').addClass('btn-disable');
+					$('#repeatPassword_error').attr('disabled', true);
+					result = false;
+				}else{
+					$('#repeatPassword_error').removeClass('btn-disable');
+					$('#repeatPassword_error').removeAttr('disabled');
+					result = true;
+				} 
+				
+			}else{
+				
+				result = false;
+				
+			}
+			if(result == true){
+				$('#btnAddRegister').removeClass('btn-disable');
+				$('#btnAddRegister').removeAttr('disabled');
+			}else{
+				$('#btnAddRegister').addClass('btn-disable');
+				$('#btnAddRegister').attr('disabled', true);
+			}
+		}); */
+	
+			
+			
+</script>
+<script>  
+	function validateemail()  
+	{  
+	var x=document.myform.email.value;  
+	var atposition=x.indexOf("@");  
+	var dotposition=x.lastIndexOf(".");  
+	if (atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
+	  alert("Please enter a valid e-mail address \n atpostion:"+atposition+"\n dotposition:"+dotposition);  
+	  return false;  
+	  }  
+	}  
+	</script>
+</body>
+</html>
